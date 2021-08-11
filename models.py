@@ -6,7 +6,6 @@ from typing import Optional, Set, List, Union, Literal
 class Section(BaseModel):
     pass
 
-
 class HeaderSection(Section):
     type: Literal["header"] = Field(..., description="Section type - 'header'", example="header")
     level: int = Field(
@@ -71,14 +70,14 @@ class ImageSection(Section):
 
 
 class MediaSection(Section):
-    type: Literal["media"] = Field(..., description="Section type - 'media'", example="media")
+    type: str = Field(..., description="Section type - 'media'", example="media")
     id: str = Field(
         ...,
         description="Provider internal id of the media",
         example="media_id",
     )
-    url: HttpUrl = Field(
-        ..., description="Url to the media", example="https://some.website/media.mp4"
+    url: Optional[HttpUrl] = Field(
+        None, description="Url to the media", example="https://some.website/media.mp4"
     )
     thumbnail: Optional[HttpUrl] = Field(
         None,
@@ -91,10 +90,10 @@ class MediaSection(Section):
     author: Optional[str] = Field(
         None, description="Name of the author of the media", example="Some Author"
     )
-    publication_date: datetime = Field(
-        ..., description="Datetime of media publication", example="2020-07-08T20:50:43Z"
+    pub_date: Optional[str] = Field(
+        None, description="Datetime of media publication", example="2020-07-08T20:50:43Z"
     )
-    modification_date: Optional[datetime] = Field(
+    mod_date: Optional[datetime] = Field(
         None, description="Datetime of media modification", example="2020-07-08T20:50:43Z"
     )
     duration: Optional[int] = Field(
@@ -117,8 +116,8 @@ class Article(BaseModel):
     original_language: str = Field(
         ..., description="Article original language", example="en"
     )
-    url: HttpUrl = Field(
-        ...,
+    url: Optional[HttpUrl] = Field(
+        None,
         description="Url to the article",
         example="https://some.website/article.html",
     )
@@ -136,10 +135,10 @@ class Article(BaseModel):
     author: Optional[str] = Field(
         None, description="Name of the author of the article", example="Some Author"
     )
-    publication_date: datetime = Field(
+    pub_date: str = Field(
         ..., description="Datetime of article publication", example="2020-07-08T20:50:43Z"
     )
-    modification_date: Optional[datetime] = Field(
+    mod_date: Optional[str] = Field(
         description="Datetime of article modification", default_factory=datetime.now
     )
     sections: List[Union[SECTION_TYPES]]
